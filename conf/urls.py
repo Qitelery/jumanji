@@ -19,8 +19,8 @@ from jumanji.views import MainView, ListVacancies, SpecVacancies, CompanyCard, V
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', MainView.as_view()),
-    path('vacancies/', ListVacancies.as_view()),
+    path('', MainView.as_view(), name='juman'),
+    path('vacancies/', ListVacancies.as_view(), name='vacan_all'),
     path('vacancies/cat/frontend/', SpecVacancies.as_view()),
     path('companies/345/', CompanyCard.as_view()),
     path('vacancies/22/', Vacancy.as_view()),
