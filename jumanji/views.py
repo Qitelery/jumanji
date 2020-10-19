@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from django.views import View
+from jumanji.models import Vacancy, Company, Specialty
+from django.db.models import Count
+
 
 class MainView(View):
 
     def get(self, request):
 
-        return render(request, 'jumanji/index.html')
+        specials_on_main = Specialty.objects.annotate(vac_count = Count('vacancies')).all()
+        return render(request, 'jumanji/index.html', context = {'specials_on_main': specials_on_main})
 
 class ListVacancies(View):
 

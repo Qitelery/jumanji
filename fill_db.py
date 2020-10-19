@@ -7,6 +7,9 @@ from data import vacancies, companies, specialties
 from jumanji.models import Vacancy, Company, Specialty
 from datetime import datetime
 
+Vacancy.objects.all().delete()
+Company.objects.all().delete()
+Specialty.objects.all().delete()
 
 
 for com in companies:
@@ -24,7 +27,7 @@ for vac in vacancies:
     vacancy = Vacancy.objects.create(
         title = vac['title'],
         specialty = Specialty.objects.get(code=vac['cat']),
-        company = Company.objects.get(name=vac['company']),
+        company = Company.objects.get(title=vac['company']),
         salary_min = vac['salary_from'],
         salary_max = vac['salary_to'],
         published_at = date,
