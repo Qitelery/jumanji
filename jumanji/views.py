@@ -8,11 +8,11 @@ class MainView(View):
 
     def get(self, request):
 
-        specials_on_main = Specialty.objects.annotate(vac_count = Count('vacancies')).all()
-        company_on_main = Company.objects.annotate(vac_count = Count('vacancies')).all()
+        specials_on_main = Specialty.objects.annotate(vac_count=Count('vacancies')).all()
+        company_on_main = Company.objects.annotate(vac_count=Count('vacancies')).all()
         return render(request, 'jumanji/index.html',
-                      context = {'specials_on_main': specials_on_main,
-                                 'company_on_main': company_on_main})
+                      context={'specials_on_main': specials_on_main,
+                               'company_on_main': company_on_main})
 
 
 class ListVacancies(View):
@@ -20,25 +20,37 @@ class ListVacancies(View):
     def get(self, request):
 
         lst_vac = Vacancy.objects.all()
-        return render(request, 'jumanji/vacancies.html', context = {'lst_vac': lst_vac})
+        return render(request, 'jumanji/vacancies.html', context={'lst_vac': lst_vac})
 
 
 class SpecVacancies(View):
 
-    def get(self, request):
+    def get(self, request, cat_id):
 
-        return render(request, 'jumanji/vacancies.html')
+        speca = Specialty.objects.get(id=cat_id)
+        spec_vacan = Vacancy.objects.filter(specialty_id=cat_id)
+        return render(request, 'jumanji/spec_vacancies.html',
+                      context={'spec_vacan': spec_vacan,
+                               'speca': speca})
 
 
 class CompanyCard(View):
 
-    def get(self, request):
+    def get(self, request, com_id):
 
-        return render(request, 'jumanji/company.html')
+        compa = Company.objects.get(id=com_id)
+        vacan_of_company = Vacancy.objects.filter(company_id=com_id)
+        return render(request, 'jumanji/company.html',
+                      context={'compa': compa,
+                               'vacan_of_company': vacan_of_company})
 
 
-class Vacancy(View):
+class OneVacancy(View):
 
-    def get(self, request):
+    def get(self, request, vac_id):
 
-        return render(request, 'jumanji/vacancy.html')
+        one_vac = Vacancy.objects.get(id=vac_id)
+        compa_of_one_vac = Company.objects.get(id=one_vac.company_id)
+        return render(request, 'jumanji/vacancy.html',
+                      context={'one_vac': one_vac,
+                               'compa_of_one_vac': compa_of_one_vac})
