@@ -34,7 +34,9 @@
           {% for spec_on_main in specials_on_main %}
         <div class="col-6 col-md-6 col-lg-3">
           <div class="card pt-4 text-center mb-4">
-            <img class="mx-auto d-block" src="https://place-hold.it/80x80" width="80" height="80" alt="">
+              {% if spec_on_main.picture %}
+            <img class="mx-auto d-block" src="{{ spec_on_main.picture.url }}" width="80" height="80" alt="">
+              {% endif %}
             <div class="card-body">
               <p class="card-text mb-2">{{ spec_on_main.title }}</p>
               <p class="card-text"><a href={% url 'spec_vac' cat_id=spec_on_main.id %}>{{ spec_on_main.vac_count }} вакансий</a></p>
@@ -54,7 +56,9 @@
         <div class="col-6 col-md-6 col-lg-3">
           <div class="card pt-4 text-center mb-4">
             <a href="#" style="max-width: 150px;" class="mx-auto d-block">
-              <img class="mx-auto d-block mw-100" src="../static/logo2.png" alt="">
+                {% if company.logo %}
+              <img class="mx-auto d-block mw-100" src="{{ company.logo.url }}" alt="">
+                {% endif %}
             </a>
             <div class="card-body">
               <p class="card-text"><a href={% url 'card_of_company' com_id=company.id %}>{{ company.vac_count }} вакансий</a></p>

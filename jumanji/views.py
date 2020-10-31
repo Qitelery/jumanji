@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import View
-from jumanji.models import Vacancy, Company, Specialty
+from jumanji.forms import SendForm
+from jumanji.models import Vacancy, Company, Specialty, Application
 from django.db.models import Count
 
 
@@ -13,6 +14,12 @@ class MainView(View):
         return render(request, 'jumanji/index.html',
                       context={'specials_on_main': specials_on_main,
                                'company_on_main': company_on_main})
+
+
+class EntryPoint(View):
+
+    def get(self, request):
+        return render(request, 'jumanji/login.html')
 
 
 class ListVacancies(View):
@@ -54,3 +61,22 @@ class OneVacancy(View):
         return render(request, 'jumanji/vacancy.html',
                       context={'one_vac': one_vac,
                                'compa_of_one_vac': compa_of_one_vac})
+
+
+class SendApply(View):
+
+    def post(self, request, vac_id):
+
+        vacancy = Vacancy.objects.get(id=vac_id)
+        owner = Company.objects.get(id=vacancy.company_id)
+        form = SendForm(request.POST)
+        if form.is_valid():
+            Application.objects.create(written_username=form.username,
+                                       written_phone=form.telephone,
+                                       written_cover_letter=form.cover_letter,
+                                       vacancy=vac_id,
+                                       user=owner.owner_id)
+            return render(request, 'jumanji/vacancy.html')
+        return render(request, 'jumanji/vacancy.html',
+                      context={'one_vac': vacancy,
+                               'compa_of_one_vac': owner})

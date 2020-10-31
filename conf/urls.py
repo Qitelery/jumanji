@@ -15,13 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from jumanji.views import MainView, ListVacancies, SpecVacancies, CompanyCard, OneVacancy
+from jumanji.views import MainView, ListVacancies, SpecVacancies, CompanyCard, OneVacancy, EntryPoint, SendApply
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainView.as_view(), name='juman'),
+    path('login/', EntryPoint.as_view(), name='entry'),
     path('vacancies/', ListVacancies.as_view(), name='all_vacancies'),
     path('vacancies/cat/<int:cat_id>/', SpecVacancies.as_view(), name='spec_vac'),
     path('companies/<int:com_id>/', CompanyCard.as_view(), name='card_of_company'),
     path('vacancies/<int:vac_id>/', OneVacancy.as_view(), name='choice_vac'),
+    path('vacancies/<int:vac_id>/send/', SendApply.as_view()),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
