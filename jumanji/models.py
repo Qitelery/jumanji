@@ -38,4 +38,4 @@ class Application(models.Model):
     written_phone = models.IntegerField()
     written_cover_letter = models.TextField(max_length=1200)
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='applications')
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='applications')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='applications')

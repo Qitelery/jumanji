@@ -5,7 +5,7 @@
   <main class="container mt-3">
     <section>
       <h1 class="h1 text-center mx-auto mt-4 pt-5" style="font-size: 70px;"><strong>Все вакансии</strong></h1>
-      <p class="text-center pt-1">85 вакансий</p>
+      <p class="text-center pt-1">{{ vacancies_amount }} вакансий</p>
       <div class="row mt-5">
         <div class="col-12 col-lg-8 offset-lg-2 m-auto">
             {% for vacan in lst_vac %}
@@ -14,13 +14,17 @@
               <div class="row">
                 <div class="col-12 col-md-8 col-lg-9">
                   <h2 class="h2 pb-2">{{ vacan.title }}</h2>
-                  <p class="mb-2">{{ vacan.cat }} • C# • ASP.NET MVC • MySQL • Git</p>
+                  <p class="mb-2">{{ vacan.description }}</p>
                   <p>От {{ vacan.salary_min}} до {{ vacan.salary_max}}</p>
-                  <p class="text-muted pt-1">{{ vacan.published_at}}</p>
+                  <p class="text-muted pt-1">{{ vacan.published_at }}</p>
                 </div>
+                  {% for company in lst_companies %}
+                      {% if company.id == vacan.company_id %}
                 <div class="col-12 col-md-4 col-lg-3 d-flex align-items-end">
-                  <a href={% url 'choice_vac' vac_id=vacan.id %}><img src="https://place-hold.it/130x80" width="130" height="80" alt=""></a>
+                  <a href={% url 'choice_vac' vac_id=vacan.id %}><img src="{{ company.logo.url }}" width="130" height="80" alt=""></a>
                 </div>
+                      {% endif %}
+                      {% endfor %}
               </div>
             </div>
           </div>
