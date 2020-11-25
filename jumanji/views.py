@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from jumanji.forms import SendForm, Registration, LogInForm, SearchForm, EditOwnCompany
 from jumanji.models import Vacancy, Company, Specialty, Application
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Max
 
 
 class MainView(View):
@@ -169,12 +169,22 @@ class OwnCompanyEdit(View):
             edit_company = EditOwnCompany(request.POST, request.FILES)
             if edit_company.is_valid():
                 data = edit_company.cleaned_data
-                Company.objects.create(title=data['name_company'],
-                                       description=data['description'],
-                                       employee_count=data['workers_amount'],
-                                       location=data['city'],
-                                       logo=data['logo'])
-                return render(request, 'jumanji/company-edit.html')
+                own_company = Company.objects.get(owner=request.user)
+                if own_company is None:
+                    Company.objects.create(title=data['name_company'],
+                                           description=data['description'],
+                                           employee_count=data['workers_amount'],
+                                           location=data['city'],
+                                           logo=data['logo'],
+                                           owner=request.user)
+                    return render(request, 'jumanji/company-edit.html')
+                else:
+                    Company.objects.filter(owner=request.user).update(title=data['name_company'],
+                                                                      description=data['description'],
+                                                                      employee_count=data['workers_amount'],
+                                                                      location=data['city'],
+                                                                      logo=data['logo'])
+                    return render(request, 'jumanji/company-edit.html')
             else:
                 print(edit_company.errors)
                 return render(request, 'jumanji/company-edit.html')
