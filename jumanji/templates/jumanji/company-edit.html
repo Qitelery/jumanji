@@ -10,8 +10,8 @@
         <aside class="pt-3 pb-4 px-4 mb-5 card">
           <h1 class="h4 pt-2 pb-2">Моя компания</h1>
           <div class="nav flex-column nav-pills">
-            <a class="nav-link active" href="{% url 'own-company' %}">1. Информация о компании</a>
-            <a class="nav-link" href="#">2. Вакансии</a>
+            <a class="nav-link active" href="{% url 'own-company-edit' %}">1. Информация о компании</a>
+            <a class="nav-link" href="{% url 'vacancies-suggest' %}">2. Вакансии</a>
           </div>
         </aside>
       </div>
@@ -31,7 +31,7 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="companyName">Название компании</label>
-                      <input class="form-control" type="text" name="name_company" id="companyName">
+                      <input class="form-control" type="text" value="{{ own_company.title }}" name="title" id="companyName">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
@@ -39,7 +39,7 @@
                       <label class="mb-2 text-dark" for="companyLogo">Логотип</label>
                       <div class="row align-items-center">
                         <div class="col-6">
-                          <img src="https://place-hold.it/120x40" alt="" style="max-width: 120px;height: auto;">
+                          <img src="{{ own_company.logo.url }}" alt="" style="max-width: 120px;height: auto;">
                         </div>
                         <div class="col-6" style="position: relative;">
                           <div class="input-group-prepend" style="position: absolute; top: 0;right: 15px;">
@@ -57,19 +57,19 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="companyTeam">Количество человек в компании</label>
-                      <input class="form-control" name="workers_amount" type="text" value="Количество работников" id="companyTeam">
+                      <input class="form-control" name="employee_count" type="text" value="{{ own_company.employee_count }}" id="companyTeam">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group pb-2">
                       <label class="mb-2 text-dark" for="companyLocation">География</label>
-                      <input class="form-control" name="city" type="text" value="Город" id="companyLocation">
+                      <input class="form-control" name="location" type="text" value="{{ own_company.location }}" id="companyLocation">
                     </div>
                   </div>
                 </div>
                 <div class="form-group pb-2">
                   <label class="mb-2 text-dark" for="companyInfo">Информация о&nbsp;компании</label>
-                  <textarea class="form-control" rows="4" name="description" id="companyInfo" style="color:#000;">Для тех, кто желает работать в&nbsp;комфортном офисе,&nbsp;&mdash; у&nbsp;нас их&nbsp;целых три. Исторически так сложилось, что руководство и&nbsp;менеджерский состав располагается в&nbsp;Москве (обусловлено близостью заказчиков), центр разработки&nbsp;&mdash; в&nbsp;Ульяновске, в&nbsp;т.&nbsp;ч. школа молодых разработчиков и&nbsp;QA-центр&nbsp;&mdash; в&nbsp;Казани.</textarea>
+                  <textarea class="form-control" rows="4" name="description" id="companyInfo" style="color:#000;">{{ own_company.description }}</textarea>
                 </div>
                 <div class="form-group">
                   <input type="submit" class="btn btn-info" value="Сохранить">

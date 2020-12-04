@@ -28,8 +28,9 @@ class Vacancy(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='vacancies')
     salary_min = models.IntegerField()
     salary_max = models.IntegerField()
-    published_at = models.DateField()
-    description = models.CharField(max_length=64)
+    published_at = models.DateField(auto_now_add=True)
+    skills = models.CharField(max_length=600)
+    description = models.CharField(max_length=5000)
 
 
 class Application(models.Model):
@@ -39,3 +40,17 @@ class Application(models.Model):
     written_cover_letter = models.TextField(max_length=1200)
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='applications')
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='applications')
+
+
+class Resume(models.Model):
+
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='resume')
+    name = models.CharField(max_length=64)
+    surname = models.CharField(max_length=64)
+    status = models.CharField(max_length=64)
+    salary = models.IntegerField()
+    specialty = models.CharField(max_length=64)
+    qualification = models.CharField(max_length=64)
+    education = models.CharField(max_length=64)
+    experience = models.TextField(max_length=5000)
+    portfolio = models.CharField(max_length=64)

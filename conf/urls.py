@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from jumanji.views import MainView, ListVacancies, SpecVacancies, CompanyCard, OneVacancy, SendApply, \
-    RegistrationPost, LogIn, LogOut, Search, OwnCompanyEdit
+    RegistrationPost, LogIn, LogOut, Search, OwnCompanyEdit, OwnCompanyCreate, OwnResumeCreate, OwnResumeEdit, \
+    OwnResumeCreateButton, OwnCompanyVacanciesButton, OwnCompanyVacancyCreate, OwnCompanyVacancyEdit
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -31,8 +32,15 @@ urlpatterns = [
     path('vacancies/cat/<int:cat_id>/', SpecVacancies.as_view(), name='spec_vac'),
     path('companies/<int:com_id>/', CompanyCard.as_view(), name='card_of_company'),
     path('vacancies/<int:vac_id>/', OneVacancy.as_view(), name='choice_vac'),
-    path('vacancies/<int:vac_id>/sent/', SendApply.as_view()),
-    path('company-edit/', OwnCompanyEdit.as_view(), name='own-company')
+    path('vacancies/<int:vac_id>/sent/', SendApply.as_view(), name='send-apply'),
+    path('company-create/', OwnCompanyCreate.as_view(), name='own-company-create'),
+    path('company-edit/', OwnCompanyEdit.as_view(), name='own-company-edit'),
+    path('resume-suggest/', OwnResumeCreateButton.as_view(), name='resume-suggest'),
+    path('resume-create/', OwnResumeCreate.as_view(), name='own-resume-create'),
+    path('resume-edit/', OwnResumeEdit.as_view(), name='own-resume-edit'),
+    path('own-vacancies/', OwnCompanyVacanciesButton.as_view(), name='vacancies-suggest'),
+    path('create-vacancy/', OwnCompanyVacancyCreate.as_view(), name='create-vacancy'),
+    path('edit-vacancy/<int:vacancy_id>/', OwnCompanyVacancyEdit.as_view(), name='edit-vacancy')
 ]
 
 if settings.DEBUG:

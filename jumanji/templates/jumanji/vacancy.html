@@ -6,9 +6,6 @@
   <main class="container mt-3 pb-5">
     <div class="row mt-5">
       <div class="col-12 col-lg-2">
-        <div class="pl-3 mb-5">
-          <p><a href="#">Назад</a></p>
-        </div>
       </div>
       <div class="col-12 col-lg-8">
         <section class="pl-3">
@@ -20,7 +17,7 @@
 
           <p class="text-muted mb-4">{{ compa_of_one_vac.title }} ({{ compa_of_one_vac.employee_count }} человек),
               {{ compa_of_one_vac.location }}</p>
-          <p class="mt-2">{{ one_vac.description }}</p>
+          <p class="mt-2">{{ one_vac.skills }} {{ one_vac.description }}</p>
           <form action="/vacancies/{{ one_vac.id }}/sent/" class="card mt-4 mb-3" method="post">{% csrf_token %}
             <div class="card-body mx-3">
               <p class="h5 mt-3 font-weight-normal">Отозваться на вакансию</p>

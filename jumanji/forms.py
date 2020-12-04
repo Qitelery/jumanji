@@ -1,4 +1,7 @@
 from django import forms
+from django.forms import ModelForm
+
+from jumanji.models import Company, Resume, Vacancy
 
 
 class SendForm(forms.Form):
@@ -23,7 +26,7 @@ class LogInForm(forms.Form):
     password = forms.CharField(
         label="password",
         strip=False,
-        widget=forms.PasswordInput(attrs = {'autocomplete': 'new-password'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
     )
 
 
@@ -31,9 +34,22 @@ class SearchForm(forms.Form):
     search_string = forms.CharField()
 
 
-class EditOwnCompany(forms.Form):
-    name_company = forms.CharField()
-    logo = forms.ImageField()
-    workers_amount = forms.IntegerField()
-    city = forms.CharField()
-    description = forms.CharField()
+class EditOwnCompany(ModelForm):
+
+    class Meta:
+        model = Company
+        fields = ['title', 'logo', 'employee_count', 'location', 'description']
+
+
+class ResumeForm(ModelForm):
+
+    class Meta:
+        model = Resume
+        fields = ['name', 'surname', 'status', 'salary', 'specialty', 'qualification', 'education', 'experience', 'portfolio']
+
+
+class VacancyForm(ModelForm):
+
+    class Meta:
+        model = Vacancy
+        fields = ['title', 'specialty', 'salary_min', 'salary_max', 'skills', 'description']

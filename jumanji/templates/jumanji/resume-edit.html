@@ -1,68 +1,27 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends 'jumanji/base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <title>Создать резюме | Джуманджи</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <style>
-    body {
-      background-color: #F6F2E6;
-    }
-  </style>
-</head>
 
-<body>
-  <header class="container mt-3">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand mr-4 font-weight-bold" href="#">Джуманджи</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-        <ul class="navbar-nav col-10">
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Вакансии</a>
-          </li>
-
-        </ul>
-        <ul class="navbar-nav col-2 justify-content-end">
-          <li class="nav-item active">
-            <div class="btn-group">
-              <button type="button" class="btn dropdown-toggle font-weight-bold" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Иван Топорыжкин
-              </button>
-              <div class="dropdown-menu dropdown-menu-right mt-3">
-                <a href="#" class="dropdown-item py-2">Профиль</a>
-                <a href="#" class="dropdown-item py-2">Резюме</a>
-                <a href="#" class="dropdown-item py-2">Компания</a>
-                <a href="#" class="dropdown-item py-2">Выйти</a>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+{% block container %}
 
   <main class="container mt-3 pb-5">
     <section class="col-12 col-lg-6 offset-lg-3 mt-5 card">
       <div class="card-body px-3 pb-4">
         <h1 class="h4 pt-2 pb-3">Мое резюме</h1>
+        {% if updated %}
         <p class="alert alert-info" role="alert">Ваше резюме обновлено!</p>
-        <form action="/echo" class="">
+        {% endif %}
+        <form enctype="multipart/form-data" method="post">{% csrf_token %}
           <div class="row">
             <div class="col-12 col-md-6">
               <div class="form-group pb-2">
                 <label class="mb-2 text-dark" for="userName">Имя</label>
-                <input class="form-control" type="text" value="Иван" id="userName">
+                <input class="form-control" name="name" value="{{ resume.name }}" type="text" id="userName">
               </div>
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group pb-2">
                 <label class="mb-2 text-dark" for="userSurname">Фамилия</label>
-                <input class="form-control" type="text" value="Топорыжкин" id="userSurname">
+                <input class="form-control" name="surname" value="{{ resume.surname }}" type="text" id="userSurname">
               </div>
             </div>
           </div>
@@ -70,17 +29,21 @@
             <div class="col-12 col-md-6">
               <div class="form-group pb-2">
                 <label class="mb-2 text-dark" for="userReady">Готовность к работе</label>
-                <select class="custom-select mr-sm-2" id="userReady">
+                <select class="custom-select mr-sm-2" name="status" id="userReady">
+                    {% if resume %}
+                    <option selected>{{ resume.status }}</option>
+                    {% else %}
                   <option selected>Ищу работу</option>
-                  <option value="1">Открыть к предложениям</option>
-                  <option value="2">Не ищу работу</option>
+                    {% endif %}
+                  <option>Открыть к предложениям</option>
+                  <option>Не ищу работу</option>
                 </select>
               </div>
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group pb-2">
                 <label class="mb-2 text-dark" for="userPortfolio">Ожидаемое вознаграждение</label>
-                <input class="form-control" type="text" value="120 000" id="userPortfolio">
+                <input class="form-control" name="salary" value="{{ resume.salary }}" type="text" id="userPortfolio">
               </div>
             </div>
           </div>
@@ -88,36 +51,44 @@
             <div class="col-12 col-md-6">
               <div class="form-group pb-2">
                 <label class="mb-2 text-dark" for="userSpecialization">Специализация</label>
-                <select class="custom-select mr-sm-2" id="userSpecialization">
-                  <option selected>Backend разработка</option>
-                  <option value="1">Frontend разработка</option>
-                  <option value="2">Project manager</option>
+                <select class="custom-select mr-sm-2" name="specialty" id="userSpecialization">
+                    {% if resume %}
+                    <option selected>{{ resume.specialty }}</option>
+                    {% else %}
+                  <option selected>Бэкенд</option>
+                    {% endif %}
+                {% for specialty in specialities %}
+                  <option>{{ specialty.title }}</option>
+                {% endfor %}
                 </select>
               </div>
             </div>
             <div class="col-12 col-md-6">
               <div class="form-group pb-2">
                 <label class="mb-2 text-dark" for="userQualification">Квалификация</label>
-                <select class="custom-select mr-sm-2" id="userQualification">
+                <select class="custom-select mr-sm-2" name="qualification" id="userQualification">
+                    {% if resume %}
+                  <option selected>{{ resume.qualification }}</option>
+                    {% else %}
                   <option selected>Средний (middle)</option>
-                  <option value="1">Младший (junior)</option>
-                  <option value="2">Старший (senior)</option>
+                    {% endif %}
+                  <option>Младший (junior)</option>
+                  <option>Старший (senior)</option>
                 </select>
               </div>
             </div>
           </div>
           <div class="form-group pb-2">
             <label class="mb-2 text-dark" for="userEducation">Образование</label>
-            <textarea class="form-control text-uppercase" rows="4" id="userEducation" style="color:#000;">АСТРАХАНСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИНСТИТУТ РЫБНОГО ХОЗЯЙСТВА, БИОЛОГИИ И ПРИРОДОПОЛЬЗОВАНИЯ, БАКАЛАВР ГОЛОВАСТИКОВЕДЕНИЯ</textarea>
+            <textarea class="form-control text-uppercase" rows="4" name="education" id="userEducation" style="color:#000;">{{ resume.education }}</textarea>
           </div>
           <div class="form-group pb-2">
             <label class="mb-2 text-dark" for="userExperience">Опыт работы</label>
-            <textarea class="form-control" rows="4" id="userExperience" style="color:#000;">Астраханская государственная библиотека – администратор базы данных, системный архитектор, 2018-2020
-Астра - инжиниинг, системный интегратор – младший разработчик 2016– 2018</textarea>
+            <textarea class="form-control" rows="4" id="userExperience" name="experience" style="color:#000;">{{ resume.experience }}</textarea>
           </div>
           <div class="form-group pb-3">
             <label class="mb-2 text-dark" for="userPortfolio">Ссылка на портфолио</label>
-            <input class="form-control" type="text" placeholder="http://anylink.github.io" id="userPortfolio">
+            <input class="form-control" type="text" name="portfolio" value="{{ resume.portfolio }}" id="userPortfolio">
           </div>
           <div class="form-group">
             <input type="submit" class="btn btn-info" value="Сохранить">
@@ -130,5 +101,4 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>
+{% endblock %}
