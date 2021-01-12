@@ -8,6 +8,18 @@ verify_ssl = true
 [packages]
 django = "~=3.1.0"
 gunicorn = "*"
+asgiref = "*"
+brotli = "*"
+django-crispy-forms = "*"
+django-extensions = "*"
+flake8 = "*"
+mccabe = "*"
+pillow = "*"
+pycodestyle = "*"
+pyflakes = "*"
+pytz = "*"
+sqlparse = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.8"
