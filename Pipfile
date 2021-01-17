@@ -7,7 +7,6 @@ verify_ssl = true
 
 [packages]
 django = "~=3.1.0"
-gunicorn = "*"
 asgiref = "*"
 brotli = "*"
 django-crispy-forms = "*"
@@ -20,6 +19,8 @@ pyflakes = "*"
 pytz = "*"
 sqlparse = "*"
 whitenoise = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.8"
