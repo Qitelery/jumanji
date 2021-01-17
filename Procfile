@@ -1,1 +1,1 @@
-web: python jumanji/manage.py collectstatic --noinput
+web: python manage.py collectstatic --noinput
