@@ -175,4 +175,4 @@ LOGGING = {
 DEBUG_PROPAGATE_EXCEPTIONS = True
 COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
-django_heroku.settings(locals())
+django_heroku.settings(config=locals(), staticfiles=False, logging=False)
