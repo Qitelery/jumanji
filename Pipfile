@@ -21,6 +21,8 @@ sqlparse = "*"
 whitenoise = "*"
 gunicorn = "*"
 django-heroku = "*"
+dj-database-url = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.8"
